@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Conceptual - Derechos Económicos, Sociales y Culturales</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9fafb;
+        }
+        .node {
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 10; /* Mayor z-index para que los nodos estén por encima de las líneas */
+        }
+        .node:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        .main-node {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .category-node {
+            background-color: #10b981;
+            color: white;
+        }
+        .subcategory-node {
+            background-color: #f59e0b;
+            color: white;
+        }
+        .example-node {
+            background-color: #f97316;
+            color: white;
+        }
+        .reference-section {
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        /* Para poder imprimir correctamente */
+        @media print {
+            body {
+                width: 100%;
+                height: 100%;
+            }
+            .content-container {
+                page-break-inside: avoid;
+            }
+            .node {
+                break-inside: avoid;
+            }
+            .reference-section {
+                break-before: page;
+            }
+        }
+        /* Clase para el contenedor de LeaderLine */
+        .leader-line {
+            z-index: 1 !important; /* Forzar z-index bajo para las líneas */
+        }
+
+        /* Clase específica para líneas de fundamentos que deberían estar detrás */
+        .foundation-line {
+            z-index: 0 !important;
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">Mapa Conceptual: Derechos Económicos, Sociales y Culturales</h1>
+        
+        <div id="concept-map" class="content-container relative bg-white p-8 rounded-lg shadow-lg mb-8">
+            <!-- Nodo principal -->
+            <div id="main-node" class="node main-node p-4 w-64 mx-auto mb-16 text-center">
+                <h2 class="font-bold text-lg">Derechos Económicos, Sociales y Culturales (DESC)</h2>
+            </div>
+            
+            <div class="flex justify-around mb-16">
+                <!-- Características -->
+                <div id="characteristics-node" class="node category-node p-4 w-64 text-center">
+                    <h3 class="font-bold">Características</h3>
+                    <ul class="text-sm text-left mt-2">
+                        <li>• Segunda generación de DDHH</li>
+                        <li>• Buscan equidad socioeconómica</li>
+                        <li>• Requieren acción positiva del Estado</li>
+                        <li>• Realización progresiva</li>
+                    </ul>
+                </div>
+                
+                <!-- Fundamentos -->
+                <div id="foundations-node" class="node category-node p-4 w-64 text-center">
+                    <h3 class="font-bold">Fundamentos Jurídicos</h3>
+                    <ul class="text-sm text-left mt-2">
+                        <li>• DUDH (Arts. 22-27)</li>
+                        <li>• PIDESC (1966)</li>
+                        <li>• Protocolo de San Salvador</li>
+                        <li>• Constituciones Nacionales</li>
+                    </ul>
+                </div>
+                
+                <!-- Principios -->
+                <div id="principles-node" class="node category-node p-4 w-64 text-center">
+                    <h3 class="font-bold">Principios</h3>
+                    <ul class="text-sm text-left mt-2">
+                        <li>• No discriminación</li>
+                        <li>• Participación</li>
+                        <li>• Transparencia</li>
+                        <li>• Rendición de cuentas</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Tipos de DESC -->
+            <h3 class="text-xl font-bold text-center mb-6 text-gray-700">Categorías Principales</h3>
+            
+            <div class="grid grid-cols-3 gap-8 mb-16">
+                <!-- Derechos Económicos -->
+                <div id="economic-node" class="node subcategory-node p-4">
+                    <h3 class="font-bold text-center mb-2">Derechos Económicos</h3>
+                    <ul class="text-sm">
+                        <li>• Derecho al trabajo</li>
+                        <li>• Condiciones laborales justas</li>
+                        <li>• Libertad sindical</li>
+                        <li>• Seguridad social</li>
+                    </ul>
+                </div>
+                
+                <!-- Derechos Sociales -->
+                <div id="social-node" class="node subcategory-node p-4">
+                    <h3 class="font-bold text-center mb-2">Derechos Sociales</h3>
+                    <ul class="text-sm">
+                        <li>• Derecho a la salud</li>
+                        <li>• Derecho a la vivienda</li>
+                        <li>• Derecho a la alimentación</li>
+                        <li>• Derecho al agua</li>
+                    </ul>
+                </div>
+                
+                <!-- Derechos Culturales -->
+                <div id="cultural-node" class="node subcategory-node p-4">
+                    <h3 class="font-bold text-center mb-2">Derechos Culturales</h3>
+                    <ul class="text-sm">
+                        <li>• Derecho a la educación</li>
+                        <li>• Participación en la vida cultural</li>
+                        <li>• Identidad cultural</li>
+                        <li>• Acceso al patrimonio cultural</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Ejemplos -->
+            <h3 class="text-xl font-bold text-center mb-6 text-gray-700">Ejemplos Concretos</h3>
+            
+            <div class="grid grid-cols-2 gap-8 mb-16">
+                <!-- Ejemplo 1 -->
+                <div id="example1-node" class="node example-node p-4">
+                    <h4 class="font-bold text-center mb-2">Derecho a la Salud</h4>
+                    <p class="text-sm">Caso: <i>Poblete Vilches vs. Chile (2018)</i></p>
+                    <p class="text-sm mt-1">La Corte Interamericana determinó que Chile violó el derecho a la salud de un adulto mayor al no brindarle atención médica adecuada. Estableció que los Estados deben garantizar acceso a servicios esenciales de salud sin discriminación.</p>
+                </div>
+                
+                <!-- Ejemplo 2 -->
+                <div id="example2-node" class="node example-node p-4">
+                    <h4 class="font-bold text-center mb-2">Derecho a la Educación</h4>
+                    <p class="text-sm">Caso: <i>Brown vs. Board of Education (1954)</i></p>
+                    <p class="text-sm mt-1">La Corte Suprema de EE. UU. declaró inconstitucional la segregación racial en escuelas públicas, afirmando que la educación separada no puede ser igual. Este caso sentó un precedente sobre el acceso igualitario a la educación.</p>
+                </div>
+            </div>
+            
+            <!-- Desafíos -->
+            <div id="challenges-node" class="node p-4 w-full bg-red-100 border border-red-300 rounded-lg">
+                <h3 class="font-bold text-center text-red-800 mb-2">Desafíos en la Implementación</h3>
+                <div class="grid grid-cols-3 gap-4 text-sm text-red-700">
+                    <div>
+                        <h5 class="font-semibold">Jurídicos</h5>
+                        <ul class="list-disc pl-5">
+                            <li>Justiciabilidad limitada</li>
+                            <li>Ejecución de sentencias</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Económicos</h5>
+                        <ul class="list-disc pl-5">
+                            <li>Recursos insuficientes</li>
+                            <li>Priorización presupuestaria</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Políticos</h5>
+                        <ul class="list-disc pl-5">
+                            <li>Voluntad política</li>
+                            <li>Participación ciudadana efectiva</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Referencias -->
+        <div class="reference-section p-6 mt-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Referencias</h2>
+            <ul class="text-gray-700 space-y-3">
+                <li>Abramovich, V., & Courtis, C. (2014). <i>Los derechos sociales como derechos exigibles</i>. Editorial Trotta.</li>
+                <li>Comité de Derechos Económicos, Sociales y Culturales. (1990). <i>Observación General N°3: La índole de las obligaciones de los Estados Partes</i>. Naciones Unidas.</li>
+                <li>Courtis, C. (2009). <i>El mundo prometido: escritos sobre derechos sociales y derechos humanos</i>. Fontamara.</li>
+                <li>Naciones Unidas. (1966). <i>Pacto Internacional de Derechos Económicos, Sociales y Culturales</i>. Resolución 2200 A (XXI).</li>
+                <li>Pisarello, G. (2007). <i>Los derechos sociales y sus garantías: elementos para una reconstrucción</i>. Editorial Trotta.</li>
+                <li>Corte Interamericana de Derechos Humanos. (2018). <i>Caso Poblete Vilches y otros vs. Chile. Sentencia de 8 de marzo de 2018</i>.</li>
+                <li>Corte Suprema de Estados Unidos. (1954). <i>Brown v. Board of Education of Topeka, 347 U.S. 483</i>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Esperar a que el DOM se cargue completamente
+        $(document).ready(function() {
+            // Crear líneas de conexión con retraso para asegurar que el DOM esté completamente cargado
+            setTimeout(function() {
+                // Conexión del nodo principal a los tres nodos de categoría
+                new LeaderLine(
+                    document.getElementById('main-node'),
+                    document.getElementById('characteristics-node'),
+                    {
+                        color: '#3b82f6', 
+                        size: 2, 
+                        path: 'straight', 
+                        endPlug: 'arrow3', 
+                        startSocket: 'left', 
+                        endSocket: 'top',
+                        startSocketGravity: [50, -30],
+                        endSocketGravity: [50, -30],
+                        middleLabel: 'Poseen'
+                    }
+                );
+                
+                new LeaderLine(
+                    document.getElementById('main-node'),
+                    document.getElementById('foundations-node'),
+                    {
+                        color: '#3b82f6', 
+                        size: 2, 
+                        path: 'straight',  
+                        endPlug: 'arrow3',
+                        startSocket: 'bottom',
+                        endSocket: 'top',
+                        startSocketGravity: [0, 30],
+                        endSocketGravity: [0, -30],  
+                        middleLabel: 'Basados en'
+                    }
+                );
+                
+                new LeaderLine(
+                    document.getElementById('main-node'),
+                    document.getElementById('principles-node'),
+                    {
+                        color: '#3b82f6', 
+                        size: 2, 
+                        path: 'straight', 
+                        endPlug: 'arrow3',
+                        startSocket: 'right',
+                        endSocket: 'top',
+                        startSocketGravity: [50, -30],
+                        endSocketGravity: [50, -30],
+                        middleLabel: 'Siguen'
+                    }
+                );
+                
+                // Conexión del nodo principal a las subcategorías
+                new LeaderLine(
+                    document.getElementById('main-node'),
+                    document.getElementById('economic-node'),
+                    {
+                        color: '#10b981', 
+                        size: 2, 
+                        path: 'grid', 
+                        endPlug: 'arrow3', 
+                        startSocket: 'bottom', 
+                        endSocket: 'top',
+                        startSocketGravity: [-150, 0],
+                        endSocketGravity: [0, -20],
+                        middleLabel: 'Incluyen'
+                    }
+                );
+                
+                new LeaderLine(
+                    document.getElementById('main-node'),
+                    document.getElementById('social-node'),
+                    {
+                        color: '#10b981', 
+                        size: 2, 
+                        path: 'grid', 
+                        endPlug: 'arrow3', 
+                        startSocket: 'bottom', 
+                        endSocket: 'top',
+                        middleLabel: 'Incluyen'
+                    }
+                );
+                
+                new LeaderLine(
+                    document.getElementById('main-node'),
+                    document.getElementById('cultural-node'),
+                    {
+                        color: '#10b981', 
+                        size: 2, 
+                        path: 'grid', 
+                        endPlug: 'arrow3', 
+                        startSocket: 'bottom', 
+                        endSocket: 'top',
+                        startSocketGravity: [150, 0],
+                        endSocketGravity: [0, -20],
+                        middleLabel: 'Incluyen'
+                    }
+                );
+                
+                // Conexión de subcategorías a ejemplos
+                new LeaderLine(
+                    document.getElementById('social-node'),
+                    document.getElementById('example1-node'),
+                    {
+                        color: '#f59e0b', 
+                        size: 2, 
+                        path: 'straight', 
+                        endPlug: 'arrow3', 
+                        startSocket: 'bottom', 
+                        endSocket: 'top',
+                        startSocketGravity: [-20, 50],
+                        endSocketGravity: [-20, -30],
+                        middleLabel: 'Ejemplo'
+                    }
+                );
+                
+                new LeaderLine(
+                    document.getElementById('cultural-node'),
+                    document.getElementById('example2-node'),
+                    {
+                        color: '#f59e0b', 
+                        size: 2, 
+                        path: 'straight', 
+                        endPlug: 'arrow3', 
+                        startSocket: 'bottom', 
+                        endSocket: 'top',
+                        startSocketGravity: [20, 50],
+                        endSocketGravity: [20, -30],
+                        middleLabel: 'Ejemplo'
+                    }
+                );
+                
+                // Conexión a desafíos
+                new LeaderLine(
+                    document.getElementById('main-node'),
+                    document.getElementById('challenges-node'),
+                    {
+                        color: '#ef4444', 
+                        size: 2, 
+                        path: 'magnet', 
+                        endPlug: 'arrow3', 
+                        startSocket: 'bottom', 
+                        endSocket: 'top',
+                        startSocketGravity: [0, 250],
+                        endSocketGravity: [0, -80],
+                        middleLabel: 'Enfrentan'
+                    }
+                );
+                
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+``` 
